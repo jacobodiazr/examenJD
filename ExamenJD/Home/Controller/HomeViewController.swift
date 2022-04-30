@@ -9,6 +9,7 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
+    @IBOutlet weak var saveButton: UIButton!
     var listSections = [Sections]()
     var userData = UserData()
     
@@ -20,16 +21,39 @@ class HomeViewController: UIViewController {
         return table
     }()
     
+    @objc func buttonAction(sender: UIButton!) {
+        saveUser()
+    }
+    
+    func saveUser(){
+        saveButton.alpha = 0.5
+        saveButton.isEnabled = false
+        saveButton.setTitle("Sending...", for: .normal)
+        FirebaseDB.shared.saveUser(user: userData, completion: { (success, userAppCreate) in
+            if success {
+                self.userData = userAppCreate
+            }else{
+                print("error...")
+            }
+            self.saveButton.alpha = 1
+            self.saveButton.isEnabled = true
+            self.saveButton.setTitle("Save", for: .normal)
+        })
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configInit()
     }
     
     func loadInformation(){
-        HomeBR.shared.getListInfoHome() { (listSections) in
+        HomeBR.shared.getInfo() { (listSections) in
+            self.userData = self.appDelegate.userData
             self.listSections = listSections
+            self.viewMode(darkMode: self.userData.darkMode)
             self.homeTbl.delegate = self
             self.homeTbl.dataSource = self
+            self.configButton()
             self.homeTbl.reloadData()
         }
     }
@@ -37,9 +61,22 @@ class HomeViewController: UIViewController {
     func configInit(){
         self.title = "Profile Settings"
         view.addSubview(homeTbl)
+        view.addSubview(saveButton)
         homeTbl.frame = view.bounds
+        saveButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         configKeyBoard()
+        configButton()
         loadInformation()
+    }
+    
+    func configButton(){
+        if userData.image != nil && userData.name != "" {
+            saveButton.alpha = 1
+            saveButton.isEnabled = true
+        }else{
+            saveButton.alpha = 0.5
+            saveButton.isEnabled = false
+        }
     }
     
     func configKeyBoard(){
@@ -51,6 +88,7 @@ class HomeViewController: UIViewController {
         if segue.identifier == "goToPhoto"{
             if let vc = segue.destination as? PhotoViewController {
                 vc.userData = self.userData
+                vc.delgateSettingOptionsDataUser = self
             }
         }
     }
@@ -81,7 +119,7 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.delgateSettingOptionsDataUser = self
-            cell.config(with: model)
+            cell.config(with: model, userData: self.userData)
             return cell
         case .normalCell(let model):
             guard let cell = tableView.dequeueReusableCell(withIdentifier: SettingTableViewCell.identifier, for: indexPath) as? SettingTableViewCell else {
@@ -94,7 +132,7 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource {
                 return UITableViewCell()
             }
             cell.delgateSettingOptionsDataUser = self
-            cell.config(with: model)
+            cell.config(with: model, userData: self.userData)
             return cell
         }
     }
@@ -118,15 +156,17 @@ extension HomeViewController : UITableViewDelegate, UITableViewDataSource {
 extension HomeViewController : SettingOptionsDataUser {
     func inputData(inputData: String) {
         userData.name = inputData
+        configButton()
     }
     
     func selfie(selfie: UIImage) {
-        print("selfie")
+        userData.image = selfie
+        configButton()
     }
     
     func viewMode(darkMode: Bool) {
         userData.darkMode = darkMode
-        UIView.animate(withDuration: 0.5, animations: {
+        UIView.animate(withDuration: 0.1, animations: {
                 self.overrideUserInterfaceStyle = self.userData.darkMode ? .dark : .light
                 self.view.backgroundColor = .systemBackground
                 self.view.layoutIfNeeded()
@@ -135,10 +175,7 @@ extension HomeViewController : SettingOptionsDataUser {
                 let windowScene = scenes.first as? UIWindowScene
                 let window = windowScene?.windows.first
                 window?.overrideUserInterfaceStyle = self.overrideUserInterfaceStyle
-                
-                self.userData.darkMode.toggle()
             }
     }
-    
     
 }

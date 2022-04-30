@@ -8,21 +8,30 @@
 import UIKit
 
 class ViewController: UIViewController {
-
+    
     @IBOutlet weak var indicatorView: UIActivityIndicatorView!
     override func viewDidLoad() {
         super.viewDidLoad()
         setInitViewController()
         indicatorView.startAnimating()
     }
-
-        func setInitViewController(){
+    
+    func setInitViewController(){
+        let uid = UserDefaults.standard.string(forKey: "uid")
+        if uid != nil {
+            FirebaseDB.shared.getUserByUID { _ in
+                self.indicatorView.stopAnimating()
+                self.indicatorView.isHidden = true
+                self.manageVC()
+            }
+        }else{
             DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 self.indicatorView.stopAnimating()
                 self.indicatorView.isHidden = true
                 self.manageVC()
             }
         }
+    }
     
     private func manageVC(){
         
@@ -43,22 +52,5 @@ class ViewController: UIViewController {
             })
         }
     }
-            
-//            if !CheckInternet.Connection() {
-//                UpAlertView(type: .error, message: "lblErrNotNetwork".localized()).show {
-//                    print("Error")
-//                }
-//            }else{
-                
-    //            self.indicatorView.hidesWhenStopped = true
-//                FirebaseBR.shared.getParksGroup {
-//                    VentaInAPP.shared.getDataParksPrice {
-//                        self.manageVC()
-//    //                    self.indicatorView.stopAnimating()
-//                    }
-//                }
-////            }
-//
-//        }
 }
 

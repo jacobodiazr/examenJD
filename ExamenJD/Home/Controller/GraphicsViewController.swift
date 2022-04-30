@@ -8,6 +8,8 @@
 import UIKit
 
 class GraphicsViewController: UIViewController {
+    
+    var graphics = [Graphics]()
 
     @IBOutlet weak var graphicsTbl: UITableView!{
         didSet{
@@ -19,19 +21,21 @@ class GraphicsViewController: UIViewController {
         super.viewDidLoad()
         graphicsTbl.delegate = self
         graphicsTbl.dataSource = self
+        graphics = appDelegate.graphics
     }
     
 }
 
 extension GraphicsViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return graphics.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "graphicCell", for: indexPath) as? GraphicTableViewCell else {
             return UITableViewCell()
         }
+        cell.config(itemGraphic: graphics[indexPath.row])
         return cell
     }
     

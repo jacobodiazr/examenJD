@@ -7,6 +7,15 @@ target 'ExamenJD' do
 
   # Pods for ExamenJD
   pod 'Charts'
+  
+  pod 'Firebase/Core'
+  pod 'Firebase/Firestore'
+  pod 'Firebase/Database'
+  pod 'Firebase/Storage'
+  pod 'FirebaseUI/Storage'
+  
+  pod 'SwiftyJSON'
+  pod 'Alamofire'
 
   target 'ExamenJDTests' do
     inherit! :search_paths

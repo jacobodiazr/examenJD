@@ -7,11 +7,20 @@
 
 import Foundation
 import UIKit
+import Firebase
 
 open class HomeBR {
     static let shared = HomeBR()
     let appDelegate = UIApplication.shared.delegate as! AppDelegate
 //    private let ref: DatabaseReference? = Database.database().reference()
+    
+    func getInfo(completion: @escaping ([Sections])-> Void){
+            FirebaseDB.shared.getGraphics { 
+                self.getListInfoHome() { (listSections) in
+                    completion(listSections)
+                }
+            }
+    }
     
     func getListInfoHome(completion: @escaping ([Sections]) -> Void){
         

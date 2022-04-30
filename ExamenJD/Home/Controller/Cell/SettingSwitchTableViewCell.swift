@@ -77,16 +77,17 @@ class SettingSwitchTableViewCell: UITableViewCell {
         mySwicth.isOn = false
     }
     
-    public func config(with model : ItemHomeSwitch){
+    public func config(with model : ItemHomeSwitch, userData : UserData){
         iconImgView.image = model.icon
         iconContainer.backgroundColor = model.iconBackgroundColor
         label.text = model.title
-        mySwicth.isOn = false
+        mySwicth.isOn = userData.darkMode
         mySwicth.addTarget(self, action: #selector(switchOpenTriphChanged), for: UIControl.Event.valueChanged)
         
     }
     
     @objc func switchOpenTriphChanged(mySwitch: UISwitch) {
+        print(mySwitch.isOn)
         delgateSettingOptionsDataUser?.viewMode(darkMode: mySwitch.isOn)
     }
 }

@@ -16,11 +16,34 @@
                     <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g1t-Mf-CDD">
+                                <rect key="frame" x="15" y="807" width="384" height="40"/>
+                                <color key="backgroundColor" systemColor="systemBlueColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="3gN-w9-cxt"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" title="Save"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                        <real key="value" value="15"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                            </button>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="g1t-Mf-CDD" secondAttribute="trailing" constant="15" id="0bg-lR-Ryv"/>
+                            <constraint firstItem="g1t-Mf-CDD" firstAttribute="centerX" secondItem="5EZ-qb-Rvc" secondAttribute="centerX" id="MmN-XB-NMp"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="g1t-Mf-CDD" secondAttribute="bottom" constant="15" id="cqA-rC-wq8"/>
+                            <constraint firstItem="g1t-Mf-CDD" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="15" id="jMx-gl-wJp"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="sPJ-gD-o2m"/>
                     <connections>
+                        <outlet property="saveButton" destination="g1t-Mf-CDD" id="qxW-Lb-BfL"/>
                         <segue destination="meF-HA-3Ug" kind="show" identifier="goToGraphics" id="m5m-hm-BxA"/>
                         <segue destination="FSL-gc-6bz" kind="presentation" identifier="goToPhoto" modalPresentationStyle="overFullScreen" modalTransitionStyle="crossDissolve" id="UeY-kg-uLt"/>
                     </connections>
@@ -47,7 +70,7 @@
                                             <constraint firstAttribute="height" constant="40" id="yaL-mf-6Ss"/>
                                         </constraints>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" title="Show photo">
+                                        <state key="normal" title="Save photo">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
@@ -66,14 +89,14 @@
                                         </constraints>
                                         <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                         <state key="normal" title="Take photo">
-                                            <color key="titleColor" systemColor="systemRedColor"/>
+                                            <color key="titleColor" systemColor="systemOrangeColor"/>
                                         </state>
                                         <userDefinedRuntimeAttributes>
                                             <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
                                                 <real key="value" value="15"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="color" keyPath="borderColor">
-                                                <color key="value" systemColor="systemRedColor"/>
+                                                <color key="value" systemColor="systemOrangeColor"/>
                                             </userDefinedRuntimeAttribute>
                                             <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
                                                 <real key="value" value="1"/>
@@ -223,8 +246,14 @@
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>
+        <systemColor name="systemBlueColor">
+            <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
         <systemColor name="systemGreenColor">
             <color red="0.20392156862745098" green="0.7803921568627451" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemOrangeColor">
+            <color red="1" green="0.58431372549019611" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemRedColor">
             <color red="1" green="0.23137254901960785" blue="0.18823529411764706" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

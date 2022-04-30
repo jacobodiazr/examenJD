@@ -13,36 +13,27 @@ class GraphicTableViewCell: UITableViewCell {
     @IBOutlet weak var titleLbl: UILabel!
     @IBOutlet weak var pieChartView: PieChartView!
     
-    var iosDataEntry = PieChartDataEntry(value: 0)
-    var macDataEntry = PieChartDataEntry(value: 0)
-    
     var numberOfDownloadsDataEntries = [PieChartDataEntry]()
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        titleLbl.text = "¿Estaba limpia la sucursal?"
         
-        iosDataEntry.value = 60
-        iosDataEntry.label = "\("SI") \(60)%"
-        
-        macDataEntry.value = 40
-        macDataEntry.label = "\("NO") \(40)%"
-        
-        numberOfDownloadsDataEntries = [iosDataEntry, macDataEntry]
-        updateChartData()
     }
     
-    func updateChartData() {
-        
+    func config(itemGraphic : Graphics){
+        titleLbl.text = itemGraphic.title
+        var colors = [UIColor]()
+        for item in itemGraphic.itemsData {
+            let dataEntry = PieChartDataEntry(value: 0)
+            dataEntry.label = item.title
+            dataEntry.value = item.value
+            numberOfDownloadsDataEntries.append(dataEntry)
+            colors.append(UIColor(item.color))
+        }
         let chartDataSet = PieChartDataSet(entries: numberOfDownloadsDataEntries, label: "")
         let chartData = PieChartData(dataSet: chartDataSet)
-        
-        let colors = [UIColor.systemGreen, UIColor.systemRed]
         chartDataSet.colors = colors
-        
         pieChartView.data = chartData
-        
-        
     }
     
 }

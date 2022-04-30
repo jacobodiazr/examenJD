@@ -29,9 +29,7 @@ class SettingInputTableViewCell: UITableViewCell {
     
     private let textField: UITextField = {
         let textField = UITextField()
-        textField.keyboardType = .namePhonePad
-        textField.isSecureTextEntry = false
-        textField.autocorrectionType = .no
+        textField.keyboardType = .alphabet
         textField.autocapitalizationType = .words
         return textField
     }()
@@ -70,10 +68,11 @@ class SettingInputTableViewCell: UITableViewCell {
         
     }
     
-    public func config(with model : ItemHome){
+    public func config(with model : ItemHome, userData : UserData){
         iconImgView.image = model.icon
         iconContainer.backgroundColor = model.iconBackgroundColor
         textField.placeholder = model.title
+        textField.text = userData.name
         textField.addTarget(self, action: #selector(textFieldDidChange), for: .editingChanged)
     }
 }
